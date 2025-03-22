@@ -78,7 +78,8 @@ def view_pdf(fileTag: str):
 
 @app.post('/upload')
 def uploadFile(file: UploadFile = File(...), subject:str = Form(...), name:str = Form(...), author:str = Form(...), desc:str = Form(...)):
-    path = os.path.join(UPLOAD_DIR, file.filename)
+    filename = fileCursor.execute("SELECT id FROM Files ORDER BY id DESC LIMIT 1").fetchone()[0]
+    path = os.path.join(UPLOAD_DIR, str(filename + 1)+".pdf")
     with open(path, 'wb') as buffer:
         shutil.copyfileobj(file.file, buffer)
     fileCursor.execute("INSERT INTO Files(subject, Name, Author, Desc) VALUES(?,?,?,?)",

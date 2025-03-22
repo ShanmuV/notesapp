@@ -72,7 +72,12 @@ class _HomePageState extends State<HomePage> {
           },
           child: Icon(Icons.add)),
       body: RefreshIndicator(
-        onRefresh: fetchNotes,
+        onRefresh: () async {
+          setState(() {
+            fileData = fetchNotes(); // Update the future inside setState
+          });
+          await fileData; // Ensure the function completes before refresh stops
+        },
         child: Center(
           child: Column(
             children: [
@@ -189,8 +194,12 @@ class NotesItem extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(data.name,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                         style: Theme.of(context).textTheme.bodyLarge),
                     Text(data.author,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                         style: Theme.of(context).textTheme.bodyMedium)
                   ],
                 ),

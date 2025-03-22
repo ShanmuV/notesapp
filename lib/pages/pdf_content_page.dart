@@ -119,7 +119,16 @@ class _PdfContentPageState extends State<PdfContentPage> {
                 style: Theme.of(context).textTheme.headlineMedium,
               )
             : _localPath != null
-                ? PDFView(filePath: _localPath)
+                ? Stack(children: [
+                    PDFView(filePath: _localPath),
+                    Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                            decoration: BoxDecoration(
+                                color: Color.fromRGBO(231, 180, 247, 1)),
+                            margin: EdgeInsets.symmetric(vertical: 10),
+                            child: Text("Here goes the Ad")))
+                  ])
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
